@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HammadOS v1.0</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Clash+Display:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Boot Screen -->
+<div id="boot">
+  <div class="boot-logo">💻</div>
+  <div class="boot-title">HammadOS</div>
+  <div class="boot-sub">v1.0 — Portfolio Edition</div>
+  <div class="boot-bar-bg">
+    <div class="boot-bar-fill" id="bootBar"></div>
+  </div>
+  <div class="boot-status" id="bootStatus">Initializing...</div>
+</div>
+
+<!-- Desktop -->
+<div id="desktop">
+  <div class="desktop-icons">
+    <div class="desk-icon" ondblclick="openWindow('about')" onclick="selectIcon(this)">
+      <div class="icon-emoji">👤</div>
+      <div class="icon-label">About Me</div>
+    </div>
+    <div class="desk-icon" ondblclick="openWindow('projects')" onclick="selectIcon(this)">
+      <div class="icon-emoji">🚀</div>
+      <div class="icon-label">Projects</div>
+    </div>
+    <div class="desk-icon" ondblclick="openWindow('skills')" onclick="selectIcon(this)">
+      <div class="icon-emoji">⚡</div>
+      <div class="icon-label">Skills</div>
+    </div>
+    <div class="desk-icon" ondblclick="openWindow('experience')" onclick="selectIcon(this)">
+      <div class="icon-emoji">💼</div>
+      <div class="icon-label">Experience</div>
+    </div>
+    <div class="desk-icon" ondblclick="openWindow('terminal')" onclick="selectIcon(this)">
+      <div class="icon-emoji">🖥️</div>
+      <div class="icon-label">Terminal</div>
+    </div>
+  </div>
+
+  <!-- WINDOWS -->
+
+  <!-- About Window -->
+  <div class="window" id="win-about" style="width:360px;height:520px;left:120px;top:40px;display:none;z-index:100">
+    <div class="window-header" onmousedown="startDrag(event,'win-about')">
+      <div class="win-controls">
+        <button class="win-btn close" onclick="closeWindow('about')"></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('about')"></button>
+        <button class="win-btn maximize" onclick="maximizeWindow('about')"></button>
+      </div>
+      <span class="win-title">👤 about.exe</span>
+    </div>
+    <div class="window-body">
+      <div class="about-content">
+        <div class="about-avatar">🧑‍💻</div>
+        <div class="about-name">Hammad Abdul Ghaffar</div>
+        <div class="about-role">// FULL-STACK WEB DEVELOPER</div>
+        <p class="about-bio">
+          CS student at IoBM Karachi, passionate about building dynamic web experiences. I craft responsive frontends, manage backend operations, and bridge the gap between design and functionality.
+          <br><br>
+          Currently exploring modern web technologies and expanding my stack beyond the LAMP ecosystem.
+        </p>
+        <div class="about-stats">
+          <div class="stat-box">
+            <span class="stat-num">3+</span>
+            <div class="stat-label">Projects</div>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">2+</span>
+            <div class="stat-label">Years Exp</div>
+          </div>
+          <div class="stat-box">
+            <span class="stat-num">8+</span>
+            <div class="stat-label">Technologies</div>
+          </div>
+        </div>
+        <div class="contact-links">
+          <div class="contact-link" onclick="notify('📧','Email Copied!','hammadghaffar933@gmail.com')">
+            <span class="link-icon">📧</span> hammadghaffar933@gmail.com
+          </div>
+          <div class="contact-link" onclick="notify('📞','Phone Copied!','03313475758')">
+            <span class="link-icon">📞</span> 03313475758
+          </div>
+          <div class="contact-link" onclick="notify('🔗','Opening LinkedIn...','Redirecting to your profile')">
+            <span class="link-icon">💼</span> <a href="https://www.linkedin.com/in/hammad-ghaffar-099316291/">LinkedIn — Hammad Abdul Ghaffar</a>
+          </div>
+          <div class="contact-link" onclick="notify('🐙','Opening GitHub...','Redirecting to your repos')">
+            <span class="link-icon">🐙</span><a href="https://github.com/Github02User">GitHub Account</a> 
+          </div>
+          <div class="contact-link" onclick="notify('🌐','Opening Portfolio...','Loading your portfolio')">
+            <span class="link-icon">🌐</span> <a href="https://portfolio-lemj.vercel.app/">Portfolio Website</a> 
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="resize-handle" onmousedown="startResize(event,'win-about')"></div>
+  </div>
+
+  <!-- Projects Window -->
+  <div class="window" id="win-projects" style="width:440px;height:540px;left:220px;top:30px;display:none;z-index:100">
+    <div class="window-header" onmousedown="startDrag(event,'win-projects')">
+      <div class="win-controls">
+        <button class="win-btn close" onclick="closeWindow('projects')"></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('projects')"></button>
+        <button class="win-btn maximize" onclick="maximizeWindow('projects')"></button>
+      </div>
+      <span class="win-title">🚀 projects.json</span>
+    </div>
+    <div class="window-body">
+      <div class="projects-content">
+        <div class="project-card featured">
+          <div class="project-header">
+            <div class="project-name">📚 <a href="https://readrover.kesug.com/readrover/login.php">ReadRover</a></div>
+            <span class="project-badge badge-featured">★ FEATURED</span>
+          </div>
+          <p class="project-desc">
+            Dynamic eCommerce bookstore with real-time chatroom for customer interaction. Features a responsive frontend, backend operations management, and a MySQL database for efficient user & inventory management.
+          </p>
+          <div class="project-tags">
+            <span class="tag">PHP</span>
+            <span class="tag">AJAX</span>
+            <span class="tag">MySQL</span>
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">Real-time Chat</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <div class="project-name">🖥️ Portfolio OS</div>
+            <span class="project-badge badge-js">JS</span>
+          </div>
+          <p class="project-desc">
+            Interactive browser-based OS experience showcasing portfolio content through draggable windows, a taskbar, desktop icons, and a live terminal — built entirely with vanilla HTML, CSS & JavaScript.
+          </p>
+          <div class="project-tags">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">DOM API</span>
+            <span class="tag">Animations</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <div class="project-name">🌤️ Weather App</div>
+            <span class="project-badge badge-js">JS</span>
+          </div>
+          <p class="project-desc">
+            Real-time weather application fetching live data based on user location or city search, with dynamic UI changes reflecting current conditions.
+          </p>
+          <div class="project-tags">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">Weather API</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-header">
+            <div class="project-name">🧑‍💻Vibe Translator</div>
+            <span class="project-badge badge-js">JS</span>
+          </div>
+          <p class="project-desc">
+            Built a web app that translates user input into different vibes using string manipulation and dynamic UI logic.
+          </p>
+          <div class="project-tags">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">JavaScript</span>
+            <span class="tag">localStorage</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="resize-handle" onmousedown="startResize(event,'win-projects')"></div>
+  </div>
+
+  <!-- Skills Window -->
+  <div class="window" id="win-skills" style="width:380px;height:460px;left:340px;top:60px;display:none;z-index:100">
+    <div class="window-header" onmousedown="startDrag(event,'win-skills')">
+      <div class="win-controls">
+        <button class="win-btn close" onclick="closeWindow('skills')"></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('skills')"></button>
+        <button class="win-btn maximize" onclick="maximizeWindow('skills')"></button>
+      </div>
+      <span class="win-title">⚡ skills.config</span>
+    </div>
+    <div class="window-body">
+      <div class="skills-content">
+        <div class="skill-category">
+          <div class="skill-cat-title">Frontend</div>
+          <div class="skill-item"><span class="skill-name">HTML / CSS</span><div class="skill-bar-bg"><div class="skill-bar-fill" data-pct="90"></div></div><span class="skill-pct">90%</span></div>
+          <div class="skill-item"><span class="skill-name">JavaScript</span><div class="skill-bar-bg"><div class="skill-bar-fill" data-pct="80"></div></div><span class="skill-pct">80%</span></div>
+          <div class="skill-item"><span class="skill-name">Bootstrap</span><div class="skill-bar-bg"><div class="skill-bar-fill" data-pct="85"></div></div><span class="skill-pct">85%</span></div>
+          <div class="skill-item"><span class="skill-name">React</span><div class="skill-bar-bg"><div class="skill-bar-fill" data-pct="62"></div></div><span class="skill-pct">72%</span></div>
+        </div>
+        <div class="skill-category">
+          <div class="skill-cat-title">Backend</div>
+          <div class="skill-item"><span class="skill-name">PHP</span><div class="skill-bar-bg"><div class="skill-bar-fill" data-pct="75"></div></div><span class="skill-pct">75%</span></div>
+          <div class="skill-item"><span class="skill-name">AJAX</span><div class="skill-bar-bg"><div class="skill-bar-fill" data-pct="70"></div></div><span class="skill-pct">70%</span></div>
+          <div class="skill-item"><span class="skill-name">MySQL</span><div class="skill-bar-bg"><div class="skill-bar-fill" data-pct="72"></div></div><span class="skill-pct">72%</span></div>
+        </div>
+        <div class="skill-category">
+          <div class="skill-cat-title">Tools</div>
+          <div class="skill-item"><span class="skill-name">VS Code</span><div class="skill-bar-bg"><div class="skill-bar-fill" data-pct="92"></div></div><span class="skill-pct">92%</span></div>
+          <div class="skill-item"><span class="skill-name">GitHub</span><div class="skill-bar-bg"><div class="skill-bar-fill" data-pct="78"></div></div><span class="skill-pct">78%</span></div>
+          <div class="skill-item"><span class="skill-name">XAMPP</span><div class="skill-bar-bg"><div class="skill-bar-fill" data-pct="80"></div></div><span class="skill-pct">80%</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="resize-handle" onmousedown="startResize(event,'win-skills')"></div>
+  </div>
+
+  <!-- Experience Window -->
+  <div class="window" id="win-experience" style="width:400px;height:380px;left:160px;top:80px;display:none;z-index:100">
+    <div class="window-header" onmousedown="startDrag(event,'win-experience')">
+      <div class="win-controls">
+        <button class="win-btn close" onclick="closeWindow('experience')"></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('experience')"></button>
+        <button class="win-btn maximize" onclick="maximizeWindow('experience')"></button>
+      </div>
+      <span class="win-title">💼 experience.log</span>
+    </div>
+    <div class="window-body">
+      <div class="exp-content">
+        <div class="exp-item">
+          <div class="exp-timeline">
+            <div class="exp-dot"></div>
+            <div class="exp-line"></div>
+          </div>
+          <div class="exp-body">
+            <div class="exp-title">Part-time Teacher</div>
+            <div class="exp-company">Aptech Computer Education</div>
+            <div class="exp-date">July 2024 – Feb 2025</div>
+            <ul class="exp-bullets">
+              <li>Delivered lessons on HTML, CSS & JavaScript to diverse learners</li>
+              <li>Tracked student attendance and course completion via portal & Excel</li>
+              <li>Prepared assessments and detailed performance reports</li>
+              <li>Mentored students through project support and doubt resolution</li>
+            </ul>
+          </div>
+        </div>
+        <div class="exp-item">
+          <div class="exp-timeline">
+            <div class="exp-dot" style="background:var(--accent2);box-shadow:0 0 8px rgba(0,229,160,0.5)"></div>
+          </div>
+          <div class="exp-body">
+            <div class="exp-title">BS in Computer Science</div>
+            <div class="exp-company">Institute of Business Management — IoBM</div>
+            <div class="exp-date">2022 – Present · Karachi</div>
+            <ul class="exp-bullets">
+              <li>Focusing on web technologies & software development</li>
+              <li>Building full-stack projects as coursework</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="resize-handle" onmousedown="startResize(event,'win-experience')"></div>
+  </div>
+
+  <!-- Terminal Window -->
+  <div class="window" id="win-terminal" style="width:480px;height:320px;left:200px;top:100px;display:none;z-index:100">
+    <div class="window-header" onmousedown="startDrag(event,'win-terminal')">
+      <div class="win-controls">
+        <button class="win-btn close" onclick="closeWindow('terminal')"></button>
+        <button class="win-btn minimize" onclick="minimizeWindow('terminal')"></button>
+        <button class="win-btn maximize" onclick="maximizeWindow('terminal')"></button>
+      </div>
+      <span class="win-title">🖥️ terminal — hammad@portfolioOS</span>
+    </div>
+    <div class="window-body" id="term-body">
+      <div class="terminal-content" id="term-content"></div>
+    </div>
+    <div class="resize-handle" onmousedown="startResize(event,'win-terminal')"></div>
+  </div>
+</div>
+
+<!-- Taskbar -->
+<div id="taskbar">
+  <div class="taskbar-start" onclick="openWindow('about')">
+    <span class="start-logo">💻</span>
+    <span class="start-label">HammadOS</span>
+  </div>
+  <div class="taskbar-divider"></div>
+  <div class="taskbar-apps">
+    <div class="tb-app" id="tb-about" onclick="toggleWindow('about')">
+      <span class="tb-app-icon">👤</span> About
+    </div>
+    <div class="tb-app" id="tb-projects" onclick="toggleWindow('projects')">
+      <span class="tb-app-icon">🚀</span> Projects
+    </div>
+    <div class="tb-app" id="tb-skills" onclick="toggleWindow('skills')">
+      <span class="tb-app-icon">⚡</span> Skills
+    </div>
+    <div class="tb-app" id="tb-experience" onclick="toggleWindow('experience')">
+      <span class="tb-app-icon">💼</span> Experience
+    </div>
+    <div class="tb-app" id="tb-terminal" onclick="toggleWindow('terminal')">
+      <span class="tb-app-icon">🖥️</span> Terminal
+    </div>
+  </div>
+  <div class="taskbar-right">
+    <div class="taskbar-time">
+      <div class="time" id="clock">00:00</div>
+      <div id="clockDate" style="font-size:9px;color:var(--muted)"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Context Menu -->
+<div id="contextMenu">
+  <div class="ctx-item" onclick="openAllWindows()">📂 Open All Files</div>
+  <div class="ctx-item" onclick="openWindow('terminal')">🖥️ Open Terminal</div>
+  <div class="ctx-divider"></div>
+  <div class="ctx-item" onclick="closeAllWindows()">✕ Close All Windows</div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
