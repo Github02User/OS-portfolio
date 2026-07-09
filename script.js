@@ -13,9 +13,13 @@ function bootStep() {
     setTimeout(() => {
       document.getElementById('boot').style.display = 'none';
       showWelcomeNotif();
-      // Auto-open about window
-      setTimeout(() => openWindow('about'), 400);
-      setTimeout(() => openWindow('terminal'), 800);
+      // On mobile, windows open fullscreen — auto-opening them here would
+      // immediately bury the desktop icons with no way back. Let mobile
+      // users land on the desktop and tap an icon themselves.
+      if (!isMobile()) {
+        setTimeout(() => openWindow('about'), 400);
+        setTimeout(() => openWindow('terminal'), 800);
+      }
     }, 500);
     return;
   }
@@ -38,11 +42,58 @@ let zCounter = 200;
 const windowState = { about: false, projects: false, skills: false, experience: false, terminal: false };
 const windowSaved = {};
 
+// Mobile/tablet devices get a locked, fullscreen window layout instead of
+// free dragging/resizing — the desktop-window metaphor doesn't translate to touch.
+function isMobile() {
+  return window.matchMedia('(max-width: 768px)').matches;
+}
+
+// Keeps a window fully on-screen no matter what size/position it last had.
+// Runs on open, and on resize/orientation change for anything currently open.
+function clampWindowToViewport(win) {
+  if (!win) return;
+  const viewportW = window.innerWidth;
+  const viewportH = window.innerHeight - 48; // minus taskbar
+
+  if (isMobile()) {
+    win.style.left = '0px';
+    win.style.top = '0px';
+    win.style.width = '100vw';
+    win.style.height = 'calc(100vh - 48px)';
+    return;
+  }
+
+  let w = Math.min(parseInt(win.style.width) || win.offsetWidth, viewportW - 16);
+  let h = Math.min(parseInt(win.style.height) || win.offsetHeight, viewportH - 16);
+  w = Math.max(w, 280);
+  h = Math.max(h, 180);
+
+  let left = parseInt(win.style.left) || 0;
+  let top = parseInt(win.style.top) || 0;
+  left = Math.max(0, Math.min(left, viewportW - w));
+  top = Math.max(0, Math.min(top, viewportH - h));
+
+  win.style.width = w + 'px';
+  win.style.height = h + 'px';
+  win.style.left = left + 'px';
+  win.style.top = top + 'px';
+}
+
+function clampAllOpenWindows() {
+  document.querySelectorAll('.window').forEach(win => {
+    if (win.style.display && win.style.display !== 'none') clampWindowToViewport(win);
+  });
+}
+
+window.addEventListener('resize', clampAllOpenWindows);
+window.addEventListener('orientationchange', clampAllOpenWindows);
+
 function openWindow(name) {
   const win = document.getElementById('win-' + name);
   if (!win) return;
   win.style.display = 'flex';
   win.classList.remove('minimized');
+  clampWindowToViewport(win);
   bringToFront(win);
   windowState[name] = true;
   updateTaskbar(name, true);
@@ -128,42 +179,65 @@ document.getElementById('desktop').addEventListener('dblclick', hideContextMenu)
 // ── DRAG ──
 let dragging = null, dragOffX = 0, dragOffY = 0;
 
+// Works for both mouse and touch events — normalizes clientX/clientY.
+function pointerXY(e) {
+  if (e.touches && e.touches.length) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  if (e.changedTouches && e.changedTouches.length) return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
+  return { x: e.clientX, y: e.clientY };
+}
+
 function startDrag(e, name) {
+  if (isMobile()) return; // windows are locked fullscreen on small screens
   if (e.target.classList.contains('win-btn')) return;
   const win = document.getElementById('win-' + name);
   if (!win) return;
   bringToFront(win);
   dragging = win;
   const rect = win.getBoundingClientRect();
-  dragOffX = e.clientX - rect.left;
-  dragOffY = e.clientY - rect.top;
-  e.preventDefault();
+  const p = pointerXY(e);
+  dragOffX = p.x - rect.left;
+  dragOffY = p.y - rect.top;
+  if (e.cancelable) e.preventDefault();
 }
 
-document.addEventListener('mousemove', e => {
+function handleMove(e) {
   if (dragging) {
-    let x = e.clientX - dragOffX;
-    let y = e.clientY - dragOffY;
+    const p = pointerXY(e);
+    let x = p.x - dragOffX;
+    let y = p.y - dragOffY;
     x = Math.max(0, Math.min(x, window.innerWidth - dragging.offsetWidth));
     y = Math.max(0, Math.min(y, window.innerHeight - 48 - dragging.offsetHeight));
     dragging.style.left = x + 'px';
     dragging.style.top = y + 'px';
+    if (e.cancelable) e.preventDefault();
   }
   if (resizing) {
-    const w = Math.max(320, e.clientX - resizing.getBoundingClientRect().left);
-    const h = Math.max(200, e.clientY - resizing.getBoundingClientRect().top);
+    const p = pointerXY(e);
+    const rect = resizing.getBoundingClientRect();
+    const maxW = window.innerWidth - rect.left;
+    const maxH = (window.innerHeight - 48) - rect.top;
+    const w = Math.max(280, Math.min(p.x - rect.left, maxW));
+    const h = Math.max(180, Math.min(p.y - rect.top, maxH));
     resizing.style.width = w + 'px';
     resizing.style.height = h + 'px';
+    if (e.cancelable) e.preventDefault();
   }
-});
+}
 
-document.addEventListener('mouseup', () => { dragging = null; resizing = null; });
+function endMove() { dragging = null; resizing = null; }
+
+document.addEventListener('mousemove', handleMove);
+document.addEventListener('mouseup', endMove);
+document.addEventListener('touchmove', handleMove, { passive: false });
+document.addEventListener('touchend', endMove);
+document.addEventListener('touchcancel', endMove);
 
 // ── RESIZE ──
 let resizing = null;
 function startResize(e, name) {
+  if (isMobile()) return; // no free resizing on small screens
   resizing = document.getElementById('win-' + name);
-  e.preventDefault();
+  if (e.cancelable) e.preventDefault();
   e.stopPropagation();
 }
 
@@ -171,6 +245,13 @@ function startResize(e, name) {
 function selectIcon(el) {
   document.querySelectorAll('.desk-icon').forEach(i => i.classList.remove('selected'));
   el.classList.add('selected');
+}
+
+// Double-click is a mouse-only convention — on touch devices there's no
+// reliable double-tap, so a single tap should just open the window there.
+function activateIcon(el, name) {
+  selectIcon(el);
+  if (isMobile() || 'ontouchstart' in window) openWindow(name);
 }
 
 // ── CONTEXT MENU ──
@@ -282,9 +363,6 @@ function runTerminal() {
 document.querySelectorAll('.window').forEach(win => {
   if (win) win.addEventListener('mousedown', () => bringToFront(win));
 });
-document.addEventListener('touchmove', e => {
-  const touch = e.touches[0];
-  // same logic as mousemove using touch.clientX/clientY
-}, { passive: false });
+
 // Start boot
 setTimeout(bootStep, 200);
