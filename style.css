@@ -644,6 +644,87 @@ body {
 
 .taskbar-time .time { color: var(--text); font-weight: 500; }
 
+/* ══════════════════════════════════════════════════
+   RESPONSIVE — tablets and phones
+   Windows lock to fullscreen (JS also enforces this on
+   open/resize); here we cover the visual side and make
+   sure nothing overflows or gets clipped off-screen.
+   ══════════════════════════════════════════════════ */
+
+/* Tablets & small laptops */
+@media (max-width: 1024px) {
+  .window {
+    max-width: calc(100vw - 24px);
+    max-height: calc(100vh - 72px);
+  }
+}
+
+/* Phones & narrow tablets: windows always fullscreen, no free drag/resize */
+@media (max-width: 768px) {
+  .window {
+    left: 0 !important;
+    top: 0 !important;
+    width: 100vw !important;
+    height: calc(100vh - 48px) !important;
+    max-width: 100vw;
+    max-height: calc(100vh - 48px);
+    border-radius: 0;
+  }
+
+  .window-header { cursor: default; }
+  .resize-handle { display: none; }
+
+  .desktop-icons {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .desk-icon {
+    width: 68px;
+    padding: 8px 4px;
+  }
+
+  .desk-icon .icon-emoji { font-size: 22px; }
+  .desk-icon .icon-label { font-size: 9px; }
+
+  #taskbar {
+    padding: 0 8px;
+    gap: 2px;
+  }
+
+  .start-label { display: none; } /* icon-only start button to save space */
+
+  .taskbar-apps {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .taskbar-apps::-webkit-scrollbar { display: none; }
+
+  .tb-app-label { display: none; } /* icon-only app buttons */
+
+  .taskbar-time { font-size: 10px; }
+
+  .notif {
+    right: 8px;
+    left: 8px;
+    max-width: none;
+  }
+
+  #contextMenu { max-width: calc(100vw - 24px); }
+}
+
+/* Very small phones */
+@media (max-width: 380px) {
+  .desk-icon { width: 60px; }
+  .desk-icon .icon-emoji { font-size: 20px; }
+  .start-logo { font-size: 14px; }
+}
+
 /* ── NOTIFICATIONS ── */
 .notif {
   position: fixed;
@@ -764,13 +845,3 @@ body {
 
 .ctx-item:hover { background: rgba(79,143,255,0.1); color: var(--accent); }
 .ctx-divider { height: 1px; background: var(--border); margin: 4px 0; }
-@media (max-width: 768px) {
-  .window {
-    left: 0 !important;
-    top: 0 !important;
-    width: 100vw !important;
-    height: calc(100vh - 48px) !important;
-    border-radius: 0;
-  }
-  .resize-handle { display: none; } /* no free resizing on mobile */
-}
