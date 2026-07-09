@@ -23,23 +23,23 @@
 <!-- Desktop -->
 <div id="desktop">
   <div class="desktop-icons">
-    <div class="desk-icon" ondblclick="openWindow('about')" onclick="selectIcon(this)">
+    <div class="desk-icon" ondblclick="openWindow('about')" onclick="activateIcon(this,'about')">
       <div class="icon-emoji">👤</div>
       <div class="icon-label">About Me</div>
     </div>
-    <div class="desk-icon" ondblclick="openWindow('projects')" onclick="selectIcon(this)">
+    <div class="desk-icon" ondblclick="openWindow('projects')" onclick="activateIcon(this,'projects')">
       <div class="icon-emoji">🚀</div>
       <div class="icon-label">Projects</div>
     </div>
-    <div class="desk-icon" ondblclick="openWindow('skills')" onclick="selectIcon(this)">
+    <div class="desk-icon" ondblclick="openWindow('skills')" onclick="activateIcon(this,'skills')">
       <div class="icon-emoji">⚡</div>
       <div class="icon-label">Skills</div>
     </div>
-    <div class="desk-icon" ondblclick="openWindow('experience')" onclick="selectIcon(this)">
+    <div class="desk-icon" ondblclick="openWindow('experience')" onclick="activateIcon(this,'experience')">
       <div class="icon-emoji">💼</div>
       <div class="icon-label">Experience</div>
     </div>
-    <div class="desk-icon" ondblclick="openWindow('terminal')" onclick="selectIcon(this)">
+    <div class="desk-icon" ondblclick="openWindow('terminal')" onclick="activateIcon(this,'terminal')">
       <div class="icon-emoji">🖥️</div>
       <div class="icon-label">Terminal</div>
     </div>
@@ -49,7 +49,7 @@
 
   <!-- About Window -->
   <div class="window" id="win-about" style="width:360px;height:520px;left:120px;top:40px;display:none;z-index:100">
-    <div class="window-header" onmousedown="startDrag(event,'win-about')">
+    <div class="window-header" onmousedown="startDrag(event,'about')" ontouchstart="startDrag(event,'about')">
       <div class="win-controls">
         <button class="win-btn close" onclick="closeWindow('about')"></button>
         <button class="win-btn minimize" onclick="minimizeWindow('about')"></button>
@@ -100,12 +100,12 @@
         </div>
       </div>
     </div>
-    <div class="resize-handle" onmousedown="startResize(event,'win-about')"></div>
+    <div class="resize-handle" onmousedown="startResize(event,'about')" ontouchstart="startResize(event,'about')"></div>
   </div>
 
   <!-- Projects Window -->
   <div class="window" id="win-projects" style="width:440px;height:540px;left:220px;top:30px;display:none;z-index:100">
-    <div class="window-header" onmousedown="startDrag(event,'win-projects')">
+    <div class="window-header" onmousedown="startDrag(event,'projects')" ontouchstart="startDrag(event,'projects')">
       <div class="win-controls">
         <button class="win-btn close" onclick="closeWindow('projects')"></button>
         <button class="win-btn minimize" onclick="minimizeWindow('projects')"></button>
@@ -184,12 +184,12 @@
         </div>
       </div>
     </div>
-    <div class="resize-handle" onmousedown="startResize(event,'win-projects')"></div>
+    <div class="resize-handle" onmousedown="startResize(event,'projects')" ontouchstart="startResize(event,'projects')"></div>
   </div>
 
   <!-- Skills Window -->
   <div class="window" id="win-skills" style="width:380px;height:460px;left:340px;top:60px;display:none;z-index:100">
-    <div class="window-header" onmousedown="startDrag(event,'win-skills')">
+    <div class="window-header" onmousedown="startDrag(event,'skills')" ontouchstart="startDrag(event,'skills')">
       <div class="win-controls">
         <button class="win-btn close" onclick="closeWindow('skills')"></button>
         <button class="win-btn minimize" onclick="minimizeWindow('skills')"></button>
@@ -220,12 +220,12 @@
         </div>
       </div>
     </div>
-    <div class="resize-handle" onmousedown="startResize(event,'win-skills')"></div>
+    <div class="resize-handle" onmousedown="startResize(event,'skills')" ontouchstart="startResize(event,'skills')"></div>
   </div>
 
   <!-- Experience Window -->
   <div class="window" id="win-experience" style="width:400px;height:380px;left:160px;top:80px;display:none;z-index:100">
-    <div class="window-header" onmousedown="startDrag(event,'win-experience')">
+    <div class="window-header" onmousedown="startDrag(event,'experience')" ontouchstart="startDrag(event,'experience')">
       <div class="win-controls">
         <button class="win-btn close" onclick="closeWindow('experience')"></button>
         <button class="win-btn minimize" onclick="minimizeWindow('experience')"></button>
@@ -268,12 +268,12 @@
         </div>
       </div>
     </div>
-    <div class="resize-handle" onmousedown="startResize(event,'win-experience')"></div>
+    <div class="resize-handle" onmousedown="startResize(event,'experience')" ontouchstart="startResize(event,'experience')"></div>
   </div>
 
   <!-- Terminal Window -->
   <div class="window" id="win-terminal" style="width:480px;height:320px;left:200px;top:100px;display:none;z-index:100">
-    <div class="window-header" onmousedown="startDrag(event,'win-terminal')">
+    <div class="window-header" onmousedown="startDrag(event,'terminal')" ontouchstart="startDrag(event,'terminal')">
       <div class="win-controls">
         <button class="win-btn close" onclick="closeWindow('terminal')"></button>
         <button class="win-btn minimize" onclick="minimizeWindow('terminal')"></button>
@@ -284,7 +284,7 @@
     <div class="window-body" id="term-body">
       <div class="terminal-content" id="term-content"></div>
     </div>
-    <div class="resize-handle" onmousedown="startResize(event,'win-terminal')"></div>
+    <div class="resize-handle" onmousedown="startResize(event,'terminal')" ontouchstart="startResize(event,'terminal')"></div>
   </div>
 </div>
 
@@ -297,19 +297,19 @@
   <div class="taskbar-divider"></div>
   <div class="taskbar-apps">
     <div class="tb-app" id="tb-about" onclick="toggleWindow('about')">
-      <span class="tb-app-icon">👤</span> About
+      <span class="tb-app-icon">👤</span><span class="tb-app-label"> About</span>
     </div>
     <div class="tb-app" id="tb-projects" onclick="toggleWindow('projects')">
-      <span class="tb-app-icon">🚀</span> Projects
+      <span class="tb-app-icon">🚀</span><span class="tb-app-label"> Projects</span>
     </div>
     <div class="tb-app" id="tb-skills" onclick="toggleWindow('skills')">
-      <span class="tb-app-icon">⚡</span> Skills
+      <span class="tb-app-icon">⚡</span><span class="tb-app-label"> Skills</span>
     </div>
     <div class="tb-app" id="tb-experience" onclick="toggleWindow('experience')">
-      <span class="tb-app-icon">💼</span> Experience
+      <span class="tb-app-icon">💼</span><span class="tb-app-label"> Experience</span>
     </div>
     <div class="tb-app" id="tb-terminal" onclick="toggleWindow('terminal')">
-      <span class="tb-app-icon">🖥️</span> Terminal
+      <span class="tb-app-icon">🖥️</span><span class="tb-app-label"> Terminal</span>
     </div>
   </div>
   <div class="taskbar-right">
