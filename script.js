@@ -282,6 +282,9 @@ function runTerminal() {
 document.querySelectorAll('.window').forEach(win => {
   if (win) win.addEventListener('mousedown', () => bringToFront(win));
 });
-
+document.addEventListener('touchmove', e => {
+  const touch = e.touches[0];
+  // same logic as mousemove using touch.clientX/clientY
+}, { passive: false });
 // Start boot
 setTimeout(bootStep, 200);
